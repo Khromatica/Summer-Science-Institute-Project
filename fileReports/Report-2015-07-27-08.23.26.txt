@@ -1,0 +1,20 @@
+Total Memory: 128 MB
+Free Memory Before: 127 MB
+
+Row Sums: 1 2 10
+Column Sums: 1 1 1 1 1 1 1 1 2 3
+
+All Row Combinations:
+1 1 1 1 1 1 1 1 1 1
+
+Number of Combinations: 1
+
+0 0 0 0 0 0 0 0 0 1 
+0 0 0 0 0 0 0 0 0 1 
+1 1 1 1 1 1 1 1 1 1 
+
+
+Free Memory After: 271 MB
+Free Memory Used: -144 MB
+
+Time Taken: 5995 milliseconds

@@ -1,0 +1,26 @@
+public static Monomial multiply(Monomial first, Monomial second) {
+	int exponent = 0;
+		int coefficient = first.coefficient * second.coefficient;
+		
+		if (first.var == second.var) {
+			exponent = first.getExponent() + second.getExponent();
+		} 
+		Monomial m = new Monomial(coefficient, first.var, exponent);
+		
+		return m;
+	}
+	
+public static Expression add(Monomial first, Monomial second) {
+		if(first.getExponent() == second.getExponent() && first.var == second.var) {
+			Monomial m = new Monomial(first.coefficient + second.coefficient, first.var, first.getExponent());
+			return m;
+		} else if (first.getExponent() != second.getExponent() || first.var != second.var){
+			Monomial[] mons = new Monomial[2];
+			mons[0] = first;
+			mons[1] = second;
+			Polynomial p = new Polynomial(mons);
+			return p;
+		}
+		
+		return null;
+	}
