@@ -20,6 +20,7 @@ public class Main {
 		// Operations.removeGivens(matrixSums);
 		// int[][] updatedSums = Operations.intArrayListToArray(matrixSums);
 
+		// TODO: verify this memory usage
 		long startTime = System.currentTimeMillis();
 		long totalMemory = Runtime.getRuntime().totalMemory() / 1000000;
 		long initialMemory = Runtime.getRuntime().freeMemory() / 1000000;
