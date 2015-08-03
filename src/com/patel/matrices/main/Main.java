@@ -29,9 +29,10 @@ public class Main {
 		int numOfCombos = columnCombos.length;
 
 		for (int i = 0; i < columnCombos.length; i++) {
-			solutionMatrices.add(new Matrix(startingSums[0], startingSums[1]));
-			solutionMatrices.get(i).initialCheck();
-			solutionMatrices.get(i).setMatrixRow(startingSums[0].length - 1, columnCombos[i]);
+			Matrix m = new Matrix(startingSums[0], startingSums[1]);
+            m.initialCheck();
+            m.setMatrixRow(startingSums[0].length - 1, columnCombos[i]);
+            solutionMatrices.add(m);
 		}
 
 		solutionMatrices.get(0).print();

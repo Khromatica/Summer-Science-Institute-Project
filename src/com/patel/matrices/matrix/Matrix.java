@@ -41,22 +41,6 @@ public class Matrix {
 
 	}
 
-	public Matrix(int[] rowSums, int[] columnSums, int subMatrix) {
-		setRowRuns = 0;
-
-		this.rowSums = rowSums;
-		this.columnSums = columnSums;
-		numRows = rowSums.length;
-		numColumns = columnSums.length;
-
-		matrixCellArray = new MatrixCell[numRows][numColumns];
-
-		for (int i = 0; i < this.getNumRows(); i++) {
-			for (int j = 0; j < this.getNumColumns(); j++) {
-				this.matrixCellArray[i][j] = new MatrixCell();
-			}
-		}
-	}
 
 	public void print() {
 		for (int i = 0; i < this.matrixCellArray.length; i++) {
@@ -73,46 +57,6 @@ public class Matrix {
 		}
 
 		setRowRuns += 1;
-	}
-
-	public Matrix createSubMatrix() {
-		int[] newRowSums = getNewRowSums();
-		int[] newColumnSums = getNewColumnSums();
-
-		return new Matrix(newRowSums, newColumnSums, 1);
-	}
-
-	public int[] getNewRowSums() {
-		int[] newRowSums = new int[this.getNumRows() - setRowRuns];
-		for (int i = 0; i < newRowSums.length; i++) {
-			newRowSums[i] = this.getRowSums()[i];
-		}
-
-		return newRowSums;
-	}
-
-	public int[] getNewColumnSums() {
-		int[] newColumnSums = new int[this.getNumColumns()];
-		int[] currentColSums = currentColSums();
-
-		for (int i = 0; i < newColumnSums.length; i++) {
-			newColumnSums[i] = this.getColumnSums()[i] - currentColSums[i];
-		}
-
-		return newColumnSums;
-	}
-
-	public int[] currentColSums() {
-		int[] columnSums = new int[this.getNumColumns()];
-
-		for (int i = 0; i < this.getNumColumns(); i++) {
-			for (int j = 0; j < this.getNumRows(); j++) {
-				columnSums[i] += this.get(j, i);
-			}
-		}
-
-		return columnSums;
-
 	}
 
 	public void initialCheck() {
@@ -196,6 +140,19 @@ public class Matrix {
 
 	public int getNumEmptyRows() {
 		return (this.getMatrixCellArray().length - setRowRuns);
+	}
+
+	public String toString(){
+		StringBuilder s = new StringBuilder();
+		for(int i = 0; i < this.getNumRows(); i++){
+			s.append("[ ");
+			for(int j = 0; j < this.getNumColumns(); j++){
+				s.append(" " +this.matrixCellArray[i][j] +" ");
+			}
+			s.append(" ]\n");
+		}
+
+		return s.toString();
 	}
 
 }
