@@ -119,7 +119,7 @@ public class BinarySequencer {
 	}
 
 	public static void checkRepeats(ArrayList<String> array) {
-		Set<String> hs = new LinkedHashSet<>();
+		Set<String> hs = new LinkedHashSet<String>();
 		hs.addAll(array);
 		array.clear();
 		array.addAll(hs);

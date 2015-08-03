@@ -9,60 +9,52 @@ import com.patel.matrices.main.tools.Operations;
 import com.patel.matrices.matrix.Matrix;
 
 public class Main {
-	static int[][] sums = FileHandler.getSums(FileHandler.loadFile("res/vec.txt"));
+	static int[][] startingSums = FileHandler.getSums(FileHandler.loadFile("res/vec.txt"));
+    static int numOfColumns = startingSums[1].length;
+    static int lastValueInRowSums = startingSums[0][startingSums[0].length - 1];
 
 	public static void main(String[] args) {
-		ArrayList<String> information = new ArrayList<String>();
 
-		ArrayList<Matrix> matrices = new ArrayList<Matrix>();
+		ArrayList<String> information = new ArrayList<String>();    //print infomation
+		ArrayList<Matrix> solutionMatrices = new ArrayList<Matrix>();    //where the solutions go
 
 		long startTime = System.currentTimeMillis();
-
 		long totalMemory = Runtime.getRuntime().totalMemory() / 1000000;
 		long initialMemory = Runtime.getRuntime().freeMemory() / 1000000;
-
-		Operations.sort(sums);
-
-		int[][] columnCombos = BinarySequencer.getSequences(sums[1].length, (sums[0][sums[0].length - 1]));
+		
+		Operations.sort(startingSums);
+		System.out.println("Here are our rowSums and colSums"+ startingSums);
+		
+		int[][] columnCombos = BinarySequencer.getSequences(numOfColumns, lastValueInRowSums);
 		int numOfCombos = columnCombos.length;
 
 		for (int i = 0; i < columnCombos.length; i++) {
-			matrices.add(new Matrix(sums[0], sums[1]));
-			matrices.get(i).initialCheck();
-			matrices.get(i).setMatrixRow(sums[0].length - 1, columnCombos[i]);
+			solutionMatrices.add(new Matrix(startingSums[0], startingSums[1]));
+			solutionMatrices.get(i).initialCheck();
+			solutionMatrices.get(i).setMatrixRow(startingSums[0].length - 1, columnCombos[i]);
 		}
 
-		matrices.get(0).print();
+		solutionMatrices.get(0).print();
+		System.out.println(solutionMatrices.get(0).getNumRows());
+		System.out.println(solutionMatrices.get(0).getNumColumns());
 
-		println();
-
-		System.out.println(matrices.get(0).getNumRows());
-
-		System.out.println(matrices.get(0).getNumColumns());
-
-		long afterMemory = Runtime.getRuntime().freeMemory() / 1000000;
-
-		long endTime = System.currentTimeMillis();
-		long timeTaken = endTime - startTime;
-
-		information.add("Total Memory: " + totalMemory + " MB");
-		information.add("Free Memory Before: " + initialMemory + " MB");
-		information.add("Row Sums: " + Operations.intArrayToString(sums[0]));
-		information.add("Column Sums: " + Operations.intArrayToString(sums[1]));
-		information.add("Number of Combinations: " + numOfCombos);
-		information.add("Free Memory After: " + afterMemory + " MB");
-		information.add("Free Memory Used: " + (initialMemory - afterMemory) + " MB");
-		information.add("Time Taken: " + (timeTaken) + " milliseconds");
-
-		FileReporter.writeReport(information, columnCombos, matrices);
-
-		endTime = System.currentTimeMillis();
-		timeTaken = endTime - startTime;
-
-		System.out.println(timeTaken);
+        printInformation(information, startTime, totalMemory, initialMemory, numOfCombos);
+		FileReporter.writeReport(information, columnCombos, solutionMatrices);
 	}
 
-	public static void println() {
-		System.out.println();
-	}
+    private static void printInformation(ArrayList<String> information, long startTime, long totalMemory, long initialMemory, int numOfCombos) {
+        long afterMemory = Runtime.getRuntime().freeMemory() / 1000000;
+        long endTime = System.currentTimeMillis();
+        long timeTaken = endTime - startTime;
+
+        information.add("Total Memory: " + totalMemory + " MB");
+        information.add("Free Memory Before: " + initialMemory + " MB");
+        information.add("Row Sums: " + Operations.intArrayToString(startingSums[0]));
+        information.add("Column Sums: " + Operations.intArrayToString(startingSums[1]));
+        information.add("Number of Combinations: " + numOfCombos);
+        information.add("Free Memory After: " + afterMemory + " MB");
+        information.add("Free Memory Used: " + (initialMemory - afterMemory) + " MB");
+        information.add("Time Taken: " + (timeTaken) + " milliseconds");
+    }
+
 }

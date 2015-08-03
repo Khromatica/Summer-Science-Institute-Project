@@ -2,7 +2,7 @@ package com.patel.matrices.main.tools;
 
 public class Operations {
 
-	public static boolean checkSums(int[][] sums) {
+	public static boolean checkRowSumsAndColSumsAreEqual(int[][] sums) {
 		boolean equal = false;
 		int sum1 = 0;
 		int sum2 = 0;
@@ -22,7 +22,7 @@ public class Operations {
 		return equal;
 	}
 
-	public static int numOnes(int[] array) {
+	public static int countOfOnes(int[] array) {
 		int num = 0;
 
 		for (int i = 0; i < array.length; i++) {
@@ -49,7 +49,7 @@ public class Operations {
 
 		printArray(sums[1]);
 
-		if (Operations.checkSums(sums)) {
+		if (Operations.checkRowSumsAndColSumsAreEqual(sums)) {
 			System.out.println("Matrix is not impossible");
 		} else {
 			System.out.println("Matrix is impossible");
