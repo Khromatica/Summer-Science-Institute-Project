@@ -18,8 +18,7 @@ public class BinarySequencer {
 
 		// the array of integer arrays for which all sequences will be held
 		// the inner arrays represent the first row of the matrix.
-		int[][] sequences = new int[binomial(sequenceLength, numOfOnes)][sequenceLength];
-		//int[][] sequences = new int[CombinatoricsUtils.binomialCoefficient(sequenceLength,numOfOnes)][sequenceLength];
+		int[][] sequences = new int[new Long(CombinatoricsUtils.binomialCoefficient(sequenceLength,numOfOnes)).intValue()][sequenceLength];
 
 		// the next two for loops create the initial sequence with an
 		// appropriate number of 1s.
@@ -46,31 +45,6 @@ public class BinarySequencer {
 
 		return sequences;
 
-	}
-
-	// the factorial function is used in calculating the factorial of a number,
-	// usually used
-	// for the binomial function.
-	public static int factorial(int n) {
-		if (n == 0 || n == 1) {
-			return 1;
-		} else {
-			n = n * factorial(n - 1);
-		}
-
-		return n;
-	}
-
-	// gives the number of ways "b" items can be chosen from a set of "a" items.
-	public static int binomial(int a, int b) {
-		int value = 0;
-
-		if (a >= b) {
-			value = (factorial(a) / (factorial(b) * factorial(a - b)));
-			return value;
-		} else {
-			return 0;
-		}
 	}
 
 	// a shortened version of the createPermutations function with a smaller
