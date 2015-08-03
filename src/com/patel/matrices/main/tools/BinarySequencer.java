@@ -1,5 +1,7 @@
 package com.patel.matrices.main.tools;
 
+import org.apache.commons.math3.util.CombinatoricsUtils;
+
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -17,6 +19,7 @@ public class BinarySequencer {
 		// the array of integer arrays for which all sequences will be held
 		// the inner arrays represent the first row of the matrix.
 		int[][] sequences = new int[binomial(sequenceLength, numOfOnes)][sequenceLength];
+		//int[][] sequences = new int[CombinatoricsUtils.binomialCoefficient(sequenceLength,numOfOnes)][sequenceLength];
 
 		// the next two for loops create the initial sequence with an
 		// appropriate number of 1s.

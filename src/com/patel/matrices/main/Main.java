@@ -17,15 +17,16 @@ public class Main {
 
 		ArrayList<String> information = new ArrayList<String>();    //print infomation
 		ArrayList<Matrix> solutionMatrices = new ArrayList<Matrix>();    //where the solutions go
-
-		long startTime = System.currentTimeMillis();
-		long totalMemory = Runtime.getRuntime().totalMemory() / 1000000;
-		long initialMemory = Runtime.getRuntime().freeMemory() / 1000000;
 		
 		Operations.sort(startingSums);
 		System.out.println("Here are our rowSums and colSums"+ startingSums);
+
+        long startTime = System.currentTimeMillis();
+        long totalMemory = Runtime.getRuntime().totalMemory() / 1000000;
+        long initialMemory = Runtime.getRuntime().freeMemory() / 1000000;
 		
 		int[][] columnCombos = BinarySequencer.getSequences(numOfColumns, lastValueInRowSums);
+        System.out.println("Time taken to fine columnCombos: " + (System.currentTimeMillis() - startTime));
 		int numOfCombos = columnCombos.length;
 
 		for (int i = 0; i < columnCombos.length; i++) {

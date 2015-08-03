@@ -147,7 +147,7 @@ public class Matrix {
 		for(int i = 0; i < this.getNumRows(); i++){
 			s.append("[ ");
 			for(int j = 0; j < this.getNumColumns(); j++){
-				s.append(" " +this.matrixCellArray[i][j] +" ");
+				s.append(" " +this.matrixCellArray[i][j].getValue() +" ");
 			}
 			s.append(" ]\n");
 		}
