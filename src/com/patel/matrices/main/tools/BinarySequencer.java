@@ -2,15 +2,13 @@ package com.patel.matrices.main.tools;
 
 import org.apache.commons.math3.util.CombinatoricsUtils;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 public class BinarySequencer {
 
 	public static int[][] getSequences(int sequenceLength, int numOfOnes) {
 		// an arrayList for all possible sequences in string format.
-		ArrayList<String> seq1 = new ArrayList<String>();
+		HashSet<String> seq1 = new LinkedHashSet<String>();
 
 		// creates an ordered list starting with 0s and ending in 1s with the
 		// correct number of 1s for the sequence.
@@ -33,11 +31,7 @@ public class BinarySequencer {
 		// takes the initial sequence and permutes it in every way, and inserts
 		// each permutation
 		// into the seq1 String array.
-
 		permutation(initialSequence, seq1);
-		// removes repeated strings found in the seq1 String array due to the
-		// overcounting in permutation();
-		checkRepeats(seq1);
 
 		for (int i = 0; i < seq1.size(); i++) {
 			sequences[i] = intStringToArray(seq1, i);
@@ -49,11 +43,11 @@ public class BinarySequencer {
 
 	// a shortened version of the createPermutations function with a smaller
 	// number of inputs.
-	public static void permutation(String str, ArrayList<String> array) {
+	public static void permutation(String str, HashSet<String> array) {
 		createPermutations("", str, array);
 	}
 
-	private static void createPermutations(String prefix, String str, ArrayList<String> array) {
+	private static void createPermutations(String prefix, String str, HashSet<String> array) {
 		int n = str.length();
 		if (n == 0) {
 			array.add(prefix);
@@ -63,43 +57,20 @@ public class BinarySequencer {
 		}
 	}
 
-	public static void permutation(String str) {
-		createPermutations("", str);
-	}
-
-	// a method that generates permutations of a given string, and adds them to
-	// the array specified
-	// in the input field.
-	private static void createPermutations(String prefix, String str) {
-		int n = str.length();
-		if (n == 0) {
-			System.out.println(prefix);
-			System.out.println("Hello");
-		} else {
-			for (int i = 0; i < n; i++)
-				createPermutations(prefix + str.charAt(i), str.substring(0, i) + str.substring(i + 1, n));
-		}
-	}
 
 	// takes a String arrayList and adds each element in the String arrayList to
 	// the int[] integer
 	// format from the string.
-	public static int[] intStringToArray(ArrayList<String> strings, int index) {
-		int[] intSequence = new int[strings.get(index).length()];
-		String stringSequence = strings.get(index);
+	public static int[] intStringToArray(HashSet<String> strings, int index) {
+        Object[] stringsArray = strings.toArray();
+		int[] intSequence = new int[stringsArray[index].toString().length()];
+		String stringSequence = stringsArray[index].toString();
 
 		for (int i = 0; i < stringSequence.length(); i++) {
 			intSequence[i] = Character.getNumericValue(stringSequence.charAt(i));
 		}
 
 		return intSequence;
-	}
-
-	public static void checkRepeats(ArrayList<String> array) {
-		Set<String> hs = new LinkedHashSet<String>();
-		hs.addAll(array);
-		array.clear();
-		array.addAll(hs);
 	}
 
 }
