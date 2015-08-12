@@ -87,6 +87,7 @@ public class FileReporter {
 			bw.close();
 
 			System.out.println("File Written Successfully");
+			System.out.println(date);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -42,6 +42,8 @@ public class FileHandler {
 	}
 	
 	public static int[][] getSums(String[] strings) {
+		int sumRowSums = 0, sumColSums = 0;
+		
 		String[] rowSumStrings = null;
 		String[] columnSumStrings = null;
 		rowSumStrings= strings[0].split(",");
@@ -60,8 +62,23 @@ public class FileHandler {
 			columnSums[i] = Integer.parseInt(columnSumStrings[i]);
 		}
 		
+		for (int i = 0; i < rowSums.length; i++) {
+			sumRowSums += rowSums[i];
+		}
+		
+		for (int i = 0; i < columnSums.length; i++) {
+			sumColSums += columnSums[i];
+		}
+		
+		if (!(sumRowSums == sumColSums)) {
+			//System.out.println("Sums do not match");
+			//System.exit(0);
+		}
+		
 		sums[0] = rowSums;
 		sums[1] = columnSums;
+		
+		
 		
 		return sums;
 	}

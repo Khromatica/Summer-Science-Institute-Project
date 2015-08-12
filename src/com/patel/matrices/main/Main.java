@@ -15,7 +15,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		ArrayList<String> information = new ArrayList<String>();    //print infomation
+		ArrayList<String> information = new ArrayList<String>();    //print information
 		ArrayList<Matrix> solutionMatrices = new ArrayList<Matrix>();    //where the solutions go
 		
 		Operations.sort(startingSums);
@@ -25,8 +25,8 @@ public class Main {
         long totalMemory = Runtime.getRuntime().totalMemory() / 1000000;
         long initialMemory = Runtime.getRuntime().freeMemory() / 1000000;
 		
-		int[][] columnCombos = BinarySequencer.getSequences(numOfColumns, lastValueInRowSums);
-        System.out.println("Time taken to fine columnCombos: " + (System.currentTimeMillis() - startTime));
+		int[][] columnCombos = BinarySequencer.getPermutations(numOfColumns, lastValueInRowSums);
+        System.out.println("Time taken to find columnCombos: " + (System.currentTimeMillis() - startTime));
 		int numOfCombos = columnCombos.length;
 
 		for (int i = 0; i < columnCombos.length; i++) {
@@ -36,10 +36,17 @@ public class Main {
             solutionMatrices.add(m);
 		}
 
-		solutionMatrices.get(0).print();
+		System.out.println("Number of column combinations: " + columnCombos.length);
+		for (int i = 0; i < columnCombos.length; i++) {
+			Operations.printArray(columnCombos[i]);
+		}
+		System.out.println("Number of times doPerm run: " + BinarySequencer.counter);
+		
+		//solutionMatrices.get(0).print();
 		System.out.println(solutionMatrices.get(0).getNumRows());
 		System.out.println(solutionMatrices.get(0).getNumColumns());
-
+		System.out.println(numOfCombos);
+		
         printInformation(information, startTime, totalMemory, initialMemory, numOfCombos);
 		FileReporter.writeReport(information, columnCombos, solutionMatrices);
 	}
