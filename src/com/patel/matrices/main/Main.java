@@ -25,7 +25,7 @@ public class Main {
         long totalMemory = Runtime.getRuntime().totalMemory() / 1000000;
         long initialMemory = Runtime.getRuntime().freeMemory() / 1000000;
 		
-		int[][] columnCombos = BinarySequencer.getPermutations(numOfColumns, lastValueInRowSums);
+		int[][] columnCombos = BinarySequencer.getIterativePermutations(numOfColumns, lastValueInRowSums);
         System.out.println("Time taken to find columnCombos: " + (System.currentTimeMillis() - startTime));
 		int numOfCombos = columnCombos.length;
 
@@ -40,7 +40,7 @@ public class Main {
 		for (int i = 0; i < columnCombos.length; i++) {
 			Operations.printArray(columnCombos[i]);
 		}
-		System.out.println("Number of times doPerm run: " + BinarySequencer.counter);
+		System.out.println("Number of times iterativePerm run: " + BinarySequencer.iterativePermutationsCounter);
 		
 		//solutionMatrices.get(0).print();
 		System.out.println(solutionMatrices.get(0).getNumRows());
