@@ -10,6 +10,7 @@ import com.patel.matrices.matrix.Matrix;
 
 public class Main {
 	static int[][] startingSums = FileHandler.getSums(FileHandler.loadFile("res/vec.txt"));
+	static int numOfRows = startingSums[1].length;
     static int numOfColumns = startingSums[1].length;
     static int lastValueInRowSums = startingSums[0][startingSums[0].length - 1];
 

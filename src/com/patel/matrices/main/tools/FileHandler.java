@@ -9,12 +9,10 @@ public class FileHandler {
 	public static String[] loadFile(String path) {
 		String[] sums = new String[2];
 		
-		
 		File file = new File(path);
 		
 		FileInputStream fis = null;
 	    BufferedInputStream bis = null;
-		
 
 	    try {
 	      fis = new FileInputStream(file);
@@ -39,6 +37,47 @@ public class FileHandler {
 	    }
 		
 		return sums;
+	}
+	
+	public static int[][] getPermutations(String path) {
+		int numOfLines = 0;
+		
+		try {
+			numOfLines = Operations.countLines(path);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		int[][] permutations = new int[numOfLines][];
+		
+		String tempArray = null;
+		
+		File file = new File(path);
+		
+		FileInputStream fis = null;
+	    BufferedInputStream bis = null;
+
+	    try {
+	      fis = new FileInputStream(file);
+	      
+	      bis = new BufferedInputStream(fis);
+	      
+	      BufferedReader br = new BufferedReader(new InputStreamReader(bis, StandardCharsets.UTF_8));
+	 
+	      for (int i = 0; i < numOfLines; i++) {
+	    	  tempArray = br.readLine();
+	    	  permutations[i] = Operations.stringToIntArray(tempArray);
+	      }
+	      // dispose all the resources after using them.
+	      fis.close();
+	      bis.close();
+	 
+	    } catch (FileNotFoundException e) {
+	      e.printStackTrace();
+	    } catch (IOException e) {
+	      e.printStackTrace();
+	    }
+	    
+		return permutations;
 	}
 	
 	public static int[][] getSums(String[] strings) {

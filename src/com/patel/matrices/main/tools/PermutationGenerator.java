@@ -15,28 +15,10 @@ import java.util.Set;
 import org.apache.commons.math3.util.CombinatoricsUtils;
 
 public class PermutationGenerator {
-	public static void main (String [] args) {
+	public static void main(String [] args) {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		int sequenceLength = 0, numOfOnes = 0;
+
 		String fileName = null;
-		
-        /*
-        System.out.print("Enter Sequence Length");
-        try {
-        	sequenceLength = Integer.parseInt(br.readLine());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-        
-        System.out.print("Enter Number of Ones:");
-        
-        try{
-        	numOfOnes = Integer.parseInt(br.readLine());
-        } catch(IOException e){
-        	e.printStackTrace();
-        }*/
-        
         
         int startingNumber = 0, endingNumber = 0;
         

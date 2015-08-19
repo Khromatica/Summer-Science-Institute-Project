@@ -1,5 +1,7 @@
 package com.patel.matrices.matrix;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.patel.matrices.main.tools.MergeSorter;
 
 @SuppressWarnings("unused")
@@ -59,6 +61,44 @@ public class Matrix {
 		setRowRuns += 1;
 	}
 
+	public static void checkTrivialCases(int[][] startingSums) {
+		int[][] correctedSums = new int[startingSums.length][];
+		
+		int numRows = startingSums[0].length;
+		int numCols = startingSums[1].length;
+		
+		boolean trivial1 = true;
+		boolean trivial2 = true;
+
+		boolean trivialCasesRemain = true;
+		while(trivialCasesRemain) {
+			for (int h = 0; h < startingSums.length; h++) {
+				for (int i = 0; i < startingSums[h].length; i++) {
+					if (startingSums[h][i] == 0) {
+						trivialCasesRemain = true;
+						startingSums[h] = ArrayUtils.removeElement(startingSums[h], i);
+					} else {
+						trivial1 = false;
+					}
+				
+					if (startingSums[h][i] == numCols) {
+						trivialCasesRemain = true;
+						startingSums[h] = ArrayUtils.removeElement(startingSums[h], i);;
+						for (int j = 0; j < startingSums[h].length; j++) {
+							startingSums[h][j]--;
+						}
+					} else {
+						trivial2 = false;
+					}
+				}
+			}
+			
+			if (!trivial1 && !trivial2) {
+				trivialCasesRemain = false;
+			}
+		}
+	}
+	
 	public void initialCheck() {
 		for (int i = 0; i < getRowSums().length; i++) {
 			if (this.getNumColumns() == this.getRowSums()[i]) {
