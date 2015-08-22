@@ -18,26 +18,26 @@ public class Matrix {
 	private boolean[] givenRows;
 	private boolean[] givenColumns;
 
-	public Matrix(int[] rowSums, int[] columnSums) {
+	public Matrix(int[][]sums) {
 		setRowRuns = 0;
 
-		givenRows = new boolean[rowSums.length];
-		givenColumns = new boolean[columnSums.length];
+		givenRows = new boolean[sums[0].length];
+		givenColumns = new boolean[sums[1].length];
 
 		sorter = new MergeSorter();
 
-		this.rowSums = rowSums;
-		this.columnSums = columnSums;
-		numRows = rowSums.length;
-		numColumns = columnSums.length;
+		this.rowSums = sums[0];
+		this.columnSums = sums[1];
+		numRows = sums[0].length;
+		numColumns = sums[1].length;
 		matrixCellArray = new MatrixCell[numRows][numColumns];
 
-		sorter.sort(rowSums);
-		sorter.sort(columnSums);
+		sorter.sort(this.rowSums);
+		sorter.sort(this.columnSums);
 
 		for (int i = 0; i < this.getNumRows(); i++) {
 			for (int j = 0; j < this.getNumColumns(); j++) {
-				this.matrixCellArray[i][j] = new MatrixCell();
+				this.matrixCellArray[i][j] = new MatrixCell(i, j);
 			}
 		}
 
@@ -61,42 +61,78 @@ public class Matrix {
 		setRowRuns += 1;
 	}
 
-	public static void checkTrivialCases(int[][] startingSums) {
-		int[][] correctedSums = new int[startingSums.length][];
+	public static int[][] removeTrivialCases(int[][] startingSums) {
+		int[][] correctedSums = startingSums;
 		
-		int numRows = startingSums[0].length;
-		int numCols = startingSums[1].length;
+		int counter = 0;
 		
-		boolean trivial1 = true;
-		boolean trivial2 = true;
+		int numRows = correctedSums[0].length;
+		int numCols = correctedSums[1].length;
+		
+		boolean zeroesExist = true;
+		boolean valueEqualsDimension = true;
 
 		boolean trivialCasesRemain = true;
+		
 		while(trivialCasesRemain) {
-			for (int h = 0; h < startingSums.length; h++) {
-				for (int i = 0; i < startingSums[h].length; i++) {
-					if (startingSums[h][i] == 0) {
+			for (int i = 0; i < correctedSums.length; i++) {
+				for (int j = 0; j < correctedSums[i].length; j++) {
+					if (correctedSums[i][j] == 0) {
 						trivialCasesRemain = true;
-						startingSums[h] = ArrayUtils.removeElement(startingSums[h], i);
-					} else {
-						trivial1 = false;
+						correctedSums[i] = ArrayUtils.removeElement(correctedSums[i], j);
 					}
-				
-					if (startingSums[h][i] == numCols) {
-						trivialCasesRemain = true;
-						startingSums[h] = ArrayUtils.removeElement(startingSums[h], i);;
-						for (int j = 0; j < startingSums[h].length; j++) {
-							startingSums[h][j]--;
+					
+					for (int h = 0; h < correctedSums[i].length; h++) {
+						if (correctedSums[i][h] == 0) {
+							zeroesExist = true;
 						}
-					} else {
-						trivial2 = false;
+					}
+					
+				}
+			} 
+			
+			for (int i = 0; i < correctedSums[0].length; i++) {
+				if (correctedSums[0][i] == numCols) {
+					trivialCasesRemain = true;
+					correctedSums[0] = ArrayUtils.removeElement(correctedSums[0], i);
+					for (int j = 0; j < correctedSums[0].length; j++) {
+						correctedSums[0][j]--;
+					}
+					
+					valueEqualsDimension = false;
+					
+					for (int h = 0; h < correctedSums[0].length; h++) {
+						if (correctedSums[0][h] == numCols) {
+							valueEqualsDimension = true;
+						}
+					}
+				}
+			}	
+			
+			for (int i = 0; i < correctedSums[1].length; i++) {
+				if (correctedSums[1][i] == numRows) {
+					trivialCasesRemain = true;
+					correctedSums[1] = ArrayUtils.removeElement(correctedSums[1], i);
+					for (int j = 0; j < correctedSums[1].length; j++) {
+						correctedSums[1][j]--;
+					}
+				}
+				
+				valueEqualsDimension = false;
+				
+				for (int h = 0; h < correctedSums[1].length; h++) {
+					if (correctedSums[1][h] == numRows) {
+						valueEqualsDimension = true;
 					}
 				}
 			}
 			
-			if (!trivial1 && !trivial2) {
+			if (!zeroesExist || !valueEqualsDimension) {
 				trivialCasesRemain = false;
 			}
 		}
+		
+		return correctedSums;
 	}
 	
 	public void initialCheck() {

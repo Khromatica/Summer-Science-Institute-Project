@@ -5,9 +5,13 @@ public class MatrixCell {
 	private boolean immutable;
 	private int value;
 
-	public MatrixCell() {
+	private Index originalIndex;
+	
+	public MatrixCell(int row, int column) {
 		immutable = false;
 		value = 0;
+		
+		setOriginalIndex(new Index(row, column));
 	}
 
 	public void setValue(int value) {
@@ -26,6 +30,14 @@ public class MatrixCell {
 
 	public int getValue() {
 		return value;
+	}
+
+	public Index getOriginalIndex() {
+		return originalIndex;
+	}
+
+	public void setOriginalIndex(Index originalIndex) {
+		this.originalIndex = originalIndex;
 	}
 
 }

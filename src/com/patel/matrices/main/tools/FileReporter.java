@@ -11,7 +11,7 @@ import com.patel.matrices.matrix.Matrix;
 
 public class FileReporter {
 
-	public static void writeReport(ArrayList<String> info, int[][] rowCombos, ArrayList<Matrix> matrices) {
+	public static void writeReport(ArrayList<String> info, ArrayList<Matrix> matrices) {
 
 		String dateTime = LocalDateTime.now().toString();
 		String date;
@@ -47,15 +47,6 @@ public class FileReporter {
 			bw.newLine();
 			bw.write(info.get(3));
 			bw.newLine();
-			bw.newLine();
-
-			bw.write("All Row Combinations:");
-			bw.newLine();
-			for (int i = 0; i < rowCombos.length; i++) {
-				bw.write(Operations.intArrayToString(rowCombos[i]));
-				bw.newLine();
-			}
-
 			bw.newLine();
 
 			bw.write(info.get(4));

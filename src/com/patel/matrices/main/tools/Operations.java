@@ -78,6 +78,12 @@ public class Operations {
 		}
 		System.out.println();
 	}
+	
+	public static void print2DArray(int[][] array) {
+		for (int i = 0; i < array.length; i++) {
+			printArray(array[i]);
+		}
+	}
 
 	public static String intArrayToString(int[] array) {
 		String string = "";
