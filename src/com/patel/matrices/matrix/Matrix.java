@@ -3,6 +3,7 @@ package com.patel.matrices.matrix;
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.patel.matrices.main.tools.MergeSorter;
+import com.patel.matrices.main.tools.Operations;
 
 @SuppressWarnings("unused")
 public class Matrix {
@@ -64,37 +65,35 @@ public class Matrix {
 	public static int[][] removeTrivialCases(int[][] startingSums) {
 		int[][] correctedSums = startingSums;
 		
+		Operations.print2DArray(correctedSums);
+		
 		int counter = 0;
 		
 		int numRows = correctedSums[0].length;
 		int numCols = correctedSums[1].length;
 		
-		boolean zeroesExist = true;
 		boolean valueEqualsDimension = true;
-
-		boolean trivialCasesRemain = true;
 		
-		while(trivialCasesRemain) {
-			for (int i = 0; i < correctedSums.length; i++) {
-				for (int j = 0; j < correctedSums[i].length; j++) {
-					if (correctedSums[i][j] == 0) {
-						trivialCasesRemain = true;
-						correctedSums[i] = ArrayUtils.removeElement(correctedSums[i], j);
+		for (int i = 0; i < correctedSums.length; i++) {
+			for (int j = 0; j < correctedSums[i].length; j++) {
+				if (correctedSums[i][j] == 0) {
+					correctedSums[i] = ArrayUtils.removeElement(correctedSums[i], j);
+					j--;
+					if (i == 0) {
+						numRows = correctedSums[0].length;
+					} else if (i == 1) {
+						numCols = correctedSums[1].length;
 					}
-					
-					for (int h = 0; h < correctedSums[i].length; h++) {
-						if (correctedSums[i][h] == 0) {
-							zeroesExist = true;
-						}
-					}
-					
 				}
-			} 
-			
+			}
+		}
+		
+		while(valueEqualsDimension) {
 			for (int i = 0; i < correctedSums[0].length; i++) {
 				if (correctedSums[0][i] == numCols) {
-					trivialCasesRemain = true;
 					correctedSums[0] = ArrayUtils.removeElement(correctedSums[0], i);
+					numRows = correctedSums[0].length;
+					i--;
 					for (int j = 0; j < correctedSums[0].length; j++) {
 						correctedSums[0][j]--;
 					}
@@ -107,17 +106,18 @@ public class Matrix {
 						}
 					}
 				}
-			}	
+			}
 			
 			for (int i = 0; i < correctedSums[1].length; i++) {
 				if (correctedSums[1][i] == numRows) {
-					trivialCasesRemain = true;
 					correctedSums[1] = ArrayUtils.removeElement(correctedSums[1], i);
+					numCols = correctedSums[1].length;
+					i--;
 					for (int j = 0; j < correctedSums[1].length; j++) {
 						correctedSums[1][j]--;
-					}
-				}
-				
+				    }
+				}    
+
 				valueEqualsDimension = false;
 				
 				for (int h = 0; h < correctedSums[1].length; h++) {
@@ -126,12 +126,7 @@ public class Matrix {
 					}
 				}
 			}
-			
-			if (!zeroesExist || !valueEqualsDimension) {
-				trivialCasesRemain = false;
-			}
 		}
-		
 		return correctedSums;
 	}
 	

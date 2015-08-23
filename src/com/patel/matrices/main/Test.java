@@ -1,10 +1,16 @@
 package com.patel.matrices.main;
 
+import org.apache.commons.lang3.ArrayUtils;
+
+import com.patel.matrices.main.tools.Operations;
+
 public class Test {
 	public static void main (String [] args) {
-		int counter = 0;
+		int[] array = {0, 1, 2, 3, 4, 5};
 		
-		boolean bool = true;
+		Operations.printArray(array);
+		
+		Operations.printArray(array);
 		
 	}
 }
