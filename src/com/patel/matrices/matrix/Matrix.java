@@ -1,29 +1,25 @@
 package com.patel.matrices.matrix;
 
+import java.util.*;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.patel.matrices.main.tools.MergeSorter;
 import com.patel.matrices.main.tools.Operations;
 
-@SuppressWarnings("unused")
+@SuppressWarnings("all")
 public class Matrix {
 	private MergeSorter sorter;
 
 	private int setRowRuns;
 
 	private int[] rowSums, columnSums;
-	private int numRows, numColumns;
+	private static int numRows, numColumns;
 
-	private MatrixCell[][] matrixCellArray;
-
-	private boolean[] givenRows;
-	private boolean[] givenColumns;
+	private static MatrixCell[][] matrixCellArray;
 
 	public Matrix(int[][]sums) {
 		setRowRuns = 0;
-
-		givenRows = new boolean[sums[0].length];
-		givenColumns = new boolean[sums[1].length];
 
 		sorter = new MergeSorter();
 
@@ -41,9 +37,7 @@ public class Matrix {
 				this.matrixCellArray[i][j] = new MatrixCell(i, j);
 			}
 		}
-
 	}
-
 
 	public void print() {
 		for (int i = 0; i < this.matrixCellArray.length; i++) {
@@ -62,120 +56,170 @@ public class Matrix {
 		setRowRuns += 1;
 	}
 
-	public static int[][] removeTrivialCases(int[][] startingSums) {
-		int[][] correctedSums = startingSums;
+	public static void setCellValue(int a, int b, int value) {
+		matrixCellArray[a][b].setValue(value);
+	}
+	
+	
+	public static void setImmutable(int a, int b, boolean immutable) {
+		matrixCellArray[a][b].setImmutable(immutable);
+	}
+	
+	public static void setRowValue(int row, int value, boolean immutable) {
+		for (int i = 0; i < numColumns; i++) {
+			setCellValue(row, i, value);
+			setImmutable(row, i, immutable);
+		}
+	}
+	
+	public static void setColumnValue(int column, int value, boolean immutable) {
+		for (int i = 0; i < numRows; i++) {
+			setCellValue(column, i, value);
+			setImmutable(column, i, immutable);
+		}
+	}
+
+	
+	public static int[][] fixTrivialCases(int [][] startingSums) {
+		ArrayList[][] mylist = new ArrayList[2][1];
+		mylist[0][0] = new ArrayList();
+		mylist[1][0] = new ArrayList();
 		
-		Operations.print2DArray(correctedSums);
+		System.out.println(startingSums.length);
 		
-		int counter = 0;
+		for (int i = 0; i < startingSums.length; i++ ) {
+			for (int j = 0; j < startingSums[i].length; j++) {
+				if (i == 0){
+					if (startingSums[i][j] > startingSums[1].length) {
+						System.err.println("Invalid sums");
+						System.exit(0);
+					}
+				}
+				
+				if (i == 1){
+					if (startingSums[i][j] > startingSums[0].length) {
+						System.err.println("Invalid sums");
+						System.exit(0);
+					}
+				}
+			}
+		}
 		
-		int numRows = correctedSums[0].length;
-		int numCols = correctedSums[1].length;
+		
+		for (int i = 0; i < startingSums.length; i++) {
+			for (int j = 0; j < startingSums[i].length; j++) {
+				mylist[i][0].add(startingSums[i][j]);
+			}
+		}
+		
+		for (int i = 0; i < mylist.length; i++) {
+			for (int j = 0; j < mylist[i][0].size(); j++) {
+				if ( (int) mylist[i][0].get(j) == 0) {
+					if (i == 0) {
+						setRowValue(j, 0, true);
+					}
+					
+					if (i == 1) {
+						setColumnValue(j, 0, true);
+					}
+				}
+			}
+		}
+		
+		System.out.println("List1: "+ mylist[0][0]);
+		System.out.println("List2: "+ mylist[1][0]);
+		
+		//Remove the 0's from both the arrays
+		mylist[0][0].removeAll(Collections.singleton(0));
+		mylist[1][0].removeAll(Collections.singleton(0));
+		
+		System.out.println("List1: "+ mylist[0][0]);
+		System.out.println("List2: "+ mylist[1][0]);
+		
+		int origRow1Size = mylist[0][0].size();
+		int origRow2Size = mylist[1][0].size();	
 		
 		boolean valueEqualsDimension = true;
 		
-		for (int i = 0; i < correctedSums.length; i++) {
-			for (int j = 0; j < correctedSums[i].length; j++) {
-				if (correctedSums[i][j] == 0) {
-					correctedSums[i] = ArrayUtils.removeElement(correctedSums[i], j);
-					j--;
-					if (i == 0) {
-						numRows = correctedSums[0].length;
-					} else if (i == 1) {
-						numCols = correctedSums[1].length;
+		while (valueEqualsDimension)
+		{
+			Iterator iterator1 = mylist[0][0].iterator();
+			Iterator iterator2 = mylist[1][0].iterator();
+			
+			System.out.println("origRow1Size: "+ origRow1Size + "\torigRow2Size: "+ origRow2Size);
+			
+			while (iterator1.hasNext()){				
+				int value1 = (int)iterator1.next();
+
+				//Check if the value of the element is greater-than or equal to
+				// the corresponding array
+				if(value1 == mylist[1][0].size()){	
+					// Remove the element that is > = array size
+					iterator1.remove();
+					// Reduce the value of all the elements by 1 in the neighboring array 
+					int index2 = 0;
+					while(iterator2.hasNext()){
+						int value2 = (int)iterator2.next();
+						mylist[1][0].set(index2, (value2 - 1));
+						index2++ ;
 					}
 				}
+			} // inner-while 1
+			
+						
+			while (iterator2.hasNext()){				
+				int value2 = (int)iterator2.next();
+				//Check if the value of the element is greater-than or equal to
+				// the corresponding array
+				if(value2 == mylist[0][0].size()){	
+					// Remove the element that is > = array size
+					iterator2.remove();
+					// Reduce the value of all the elements by 1 in the neighboring array
+					int index1 = 0;
+					while(iterator1.hasNext()){
+						int value1 = (int)iterator1.next();
+						mylist[0][0].set(index1, (value1 - 1));
+						index1++ ;
+					}
+				}
+			} // inner-while 2
+			
+			//Remove the 0's from both the arrays
+			mylist[0][0].removeAll(Collections.singleton(0));
+			mylist[1][0].removeAll(Collections.singleton(0));
+			
+			// Check if the length of the arrays changed after the iteration
+			// if the size changed, repeat the while loop
+			// else set valueEqualsDimension to false to exit the while loop
+			if (origRow1Size != mylist[0][0].size() || origRow2Size != mylist[1][0].size())
+			{
+				origRow1Size = mylist[0][0].size();
+				origRow2Size = mylist[1][0].size();
+			}
+			else
+			{
+				valueEqualsDimension = false;
+			}
+		}		
+		
+		int[][] correctedSums = new int[mylist.length][];
+		correctedSums[0] = new int[mylist[0][0].size()];
+		correctedSums[1] = new int[mylist[1][0].size()];
+		
+		
+		for (int i = 0; i < mylist.length; i++) {
+			for (int j = 0; j < mylist[i][0].size(); j++) {
+				correctedSums[i][j] = (int) mylist[i][0].get(j);
 			}
 		}
 		
-		while(valueEqualsDimension) {
-			for (int i = 0; i < correctedSums[0].length; i++) {
-				if (correctedSums[0][i] == numCols) {
-					correctedSums[0] = ArrayUtils.removeElement(correctedSums[0], i);
-					numRows = correctedSums[0].length;
-					i--;
-					for (int j = 0; j < correctedSums[0].length; j++) {
-						correctedSums[0][j]--;
-					}
-					
-					valueEqualsDimension = false;
-					
-					for (int h = 0; h < correctedSums[0].length; h++) {
-						if (correctedSums[0][h] == numCols) {
-							valueEqualsDimension = true;
-						}
-					}
-				}
-			}
-			
-			for (int i = 0; i < correctedSums[1].length; i++) {
-				if (correctedSums[1][i] == numRows) {
-					correctedSums[1] = ArrayUtils.removeElement(correctedSums[1], i);
-					numCols = correctedSums[1].length;
-					i--;
-					for (int j = 0; j < correctedSums[1].length; j++) {
-						correctedSums[1][j]--;
-				    }
-				}    
-
-				valueEqualsDimension = false;
-				
-				for (int h = 0; h < correctedSums[1].length; h++) {
-					if (correctedSums[1][h] == numRows) {
-						valueEqualsDimension = true;
-					}
-				}
-			}
-		}
+		System.out.println(mylist[0][0]);
+		System.out.println(mylist[1][0]);
+		
+		
 		return correctedSums;
 	}
 	
-	public void initialCheck() {
-		for (int i = 0; i < getRowSums().length; i++) {
-			if (this.getNumColumns() == this.getRowSums()[i]) {
-				for (int j = 0; j < getNumColumns(); j++) {
-					this.setCellValue(i, j, 1);
-					this.setImmutable(i, j, true);
-				}
-			}
-		}
-
-		for (int j = 0; j < getColumnSums().length; j++) {
-			if (this.getNumRows() == this.getColumnSums()[j]) {
-				for (int i = 0; i < getNumRows(); i++) {
-					this.setCellValue(i, j, 1);
-					this.setImmutable(i, j, true);
-				}
-			}
-		}
-
-		for (int i = 0; i < getRowSums().length; i++) {
-			if (this.getRowSums()[i] == 0) {
-				for (int j = 0; j < getNumColumns(); j++) {
-					this.setCellValue(i, j, 0);
-					this.setImmutable(i, j, true);
-				}
-			}
-		}
-
-		for (int j = 0; j < getColumnSums().length; j++) {
-			if (this.getColumnSums()[j] == 0) {
-				for (int i = 0; i < getNumRows(); i++) {
-					this.setCellValue(i, j, 0);
-					this.setImmutable(i, j, true);
-				}
-			}
-		}
-	}
-
-	public void setCellValue(int a, int b, int value) {
-		this.matrixCellArray[a][b].setValue(value);
-	}
-
-	public void setImmutable(int a, int b, boolean immutable) {
-		this.matrixCellArray[a][b].setImmutable(immutable);
-	}
-
 	/*
 	 * /////////////////////////////////////////////
 	 * 

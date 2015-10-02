@@ -22,7 +22,7 @@ public class Main {
 		ArrayList<Matrix> solutionMatrices = new ArrayList<Matrix>();    //where the solutions go
 		
 		Operations.sort(startingSums);
-		correctedSums = Matrix.removeTrivialCases(startingSums);
+		correctedSums = Matrix.fixTrivialCases(startingSums);
 		
 		System.out.println("Here are our rowSums and colSums");
 
