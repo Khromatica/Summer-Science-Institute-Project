@@ -1,9 +1,16 @@
 package com.patel.matrices.main.tools;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.regex.Pattern;
+
+import org.apache.commons.math3.util.CombinatoricsUtils;
 
 public class Operations {
 
@@ -108,8 +115,35 @@ public class Operations {
 		return array;
 	}
 
-	public static void removeDuplicates() {
+	public static int[][] fileTo2DArray(File file) {
+		String[] fileName = file.getName().split("C");
+		int n = Integer.parseInt(fileName[0]);
+		int k = Integer.parseInt(fileName[1].split(Pattern.quote("."))[0]);
+		
+		int lengthOfFile = (int) CombinatoricsUtils.binomialCoefficient(n, k);
+		
+		int[][] result = new int[lengthOfFile][n];
+		
+		FileInputStream fis = null;
+	    BufferedInputStream bis = null;
 
+	    try {
+	      fis = new FileInputStream(file);
+	 
+	      bis = new BufferedInputStream(fis);
+	      
+	      BufferedReader br = new BufferedReader(new InputStreamReader(bis, StandardCharsets.UTF_8));
+	      
+	      for (int i = 0; i < result.length; i++) {
+	    	  result[i] = Operations.stringToIntArray(br.readLine());
+	      }
+	      
+	      br.close();
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+	    
+	    return result;
 	}
 	
 	public static int countLines(String filename) throws IOException {
@@ -133,4 +167,5 @@ public class Operations {
 	    }
 	}
 
+	
 }
