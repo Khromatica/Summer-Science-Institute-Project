@@ -1,9 +1,13 @@
 package com.patel.matrices.main.tools;
 
 import java.io.File;
+import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 import com.patel.matrices.matrix.Matrix;
 
@@ -23,6 +27,7 @@ public class BruteForceMatrixGeneratorStrategy {
 	
 	public ArrayList<Matrix> generate(int[] rowSums, int[] colSums) {
 		
+		
 		initHashMap();
 		
 		ArrayList<Matrix> t = new ArrayList<Matrix>();
@@ -40,7 +45,15 @@ public class BruteForceMatrixGeneratorStrategy {
 			c.add(Operations.fileTo2DArray(chooseFiles.get(i)));
 		}
 		
+		int[][] fileLinePositions = Operations.buildFileLinePositions(chooseFiles);
+		
 		//3: Combine the chooses in every different order, iteratively
+		for (int i = 0; i < fileLinePositions.length; i++) {
+			Matrix m = Operations.getMatrixFromFile(chooseFiles, fileLinePositions[i], rowSums, colSums);
+			t.add(m);
+		}
+		
+		
 		
 		return t;
 	}
@@ -54,4 +67,7 @@ public class BruteForceMatrixGeneratorStrategy {
 			}
 		}
 	}
+	
 }
+
+ 

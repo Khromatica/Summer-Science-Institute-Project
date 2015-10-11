@@ -8,9 +8,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.math3.util.CombinatoricsUtils;
+
+import com.patel.matrices.matrix.Matrix;
 
 public class Operations {
 
@@ -166,6 +170,72 @@ public class Operations {
 	        is.close();
 	    }
 	}
-
 	
+	public static int countLines(File file) throws IOException {
+	    InputStream is = new FileInputStream(file);
+	    try {
+	        byte[] c = new byte[1024];
+	        int count = 0;
+	        int readChars = 0;
+	        boolean empty = true;
+	        while ((readChars = is.read(c)) != -1) {
+	            empty = false;
+	            for (int i = 0; i < readChars; ++i) {
+	                if (c[i] == '\n') {
+	                    ++count;
+	                }
+	            }
+	        }
+	        return (count == 0 && !empty) ? 1 : count;
+	    } finally {
+	        is.close();
+	    }
+	}
+
+	public static int[][] buildFileLinePositions(ArrayList<File> files){
+		int n = 1;
+		
+		int[] linesInEachFile = new int[files.size()];
+		
+		for (int i = 0; i < linesInEachFile.length; i++) {
+			try {
+				linesInEachFile[i] = Operations.countLines(files.get(i));
+				n *= linesInEachFile[i];
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		int[][] fileLinePositions = new int[n][files.size()];
+		
+		for (int i = 0; i < fileLinePositions.length; i++) {
+		}
+		
+		return fileLinePositions;
+	}
+	
+	public int[] buildFilePosition(int[] linesInEachFile ){
+		return null;
+	}
+
+	public static Matrix getMatrixFromFile(ArrayList<File> chooseFiles, int[] fileLinePositions, int[] rowSums, int[] colSums) {
+		int numRows = rowSums.length;
+		int numCols = colSums.length;
+		
+		Matrix result = new Matrix(numRows, numCols);
+		
+		for (int i = 0; i < fileLinePositions.length; i++) {
+			try {
+				for (int j = 0; j < chooseFiles.size(); j++) {
+					result.setRow(i, Operations.stringToIntArray(FileUtils.readLines(chooseFiles.get(j)).get(fileLinePositions[i])));
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
 }

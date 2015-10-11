@@ -38,6 +38,15 @@ public class Matrix {
 			}
 		}
 	}
+	
+	public Matrix(int numRows, int numCols) {
+		matrixCellArray = new MatrixCell[numRows][numColumns];
+		for (int i = 0; i < this.getNumRows(); i++) {
+			for (int j = 0; j < this.getNumColumns(); j++) {
+				this.matrixCellArray[i][j] = new MatrixCell(i, j);
+			}
+		}
+	}
 
 	public void print() {
 		for (int i = 0; i < this.matrixCellArray.length; i++) {
@@ -48,7 +57,7 @@ public class Matrix {
 		}
 	}
 
-	public void setMatrixRow(int rowPos, int[] row) {
+	public void setRow(int rowPos, int[] row) {
 		for (int i = 0; i < row.length; i++) {
 			this.matrixCellArray[rowPos][i].setValue(row[i]);
 		}
