@@ -3,7 +3,7 @@ package com.patel.matrices.matrix;
 public class MatrixCell {
 
 	private boolean immutable;
-	private int value;
+	private double value;
 
 	private Index originalIndex;
 	
@@ -14,7 +14,7 @@ public class MatrixCell {
 		setOriginalIndex(new Index(row, column));
 	}
 
-	public void setValue(int value) {
+	public void setValue(double value) {
 		if (!immutable) {
 			this.value = value;
 		}
@@ -28,7 +28,7 @@ public class MatrixCell {
 		return immutable;
 	}
 
-	public int getValue() {
+	public double getValue() {
 		return value;
 	}
 

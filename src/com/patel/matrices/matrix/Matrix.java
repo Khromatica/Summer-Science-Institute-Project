@@ -14,9 +14,9 @@ public class Matrix {
 	private int setRowRuns;
 
 	private int[] rowSums, columnSums;
-	private static int numRows, numColumns;
+	private int numRows, numColumns;
 
-	private static MatrixCell[][] matrixCellArray;
+	private MatrixCell[][] matrixCellArray;
 
 	public Matrix(int[][]sums) {
 		setRowRuns = 0;
@@ -40,6 +40,8 @@ public class Matrix {
 	}
 	
 	public Matrix(int numRows, int numCols) {
+		this.numRows = numRows;
+		this.numColumns = numCols;
 		matrixCellArray = new MatrixCell[numRows][numColumns];
 		for (int i = 0; i < this.getNumRows(); i++) {
 			for (int j = 0; j < this.getNumColumns(); j++) {
@@ -65,23 +67,23 @@ public class Matrix {
 		setRowRuns += 1;
 	}
 
-	public static void setCellValue(int a, int b, int value) {
+	public void setCellValue(int a, int b, double value) {
 		matrixCellArray[a][b].setValue(value);
 	}
 	
 	
-	public static void setImmutable(int a, int b, boolean immutable) {
+	public void setImmutable(int a, int b, boolean immutable) {
 		matrixCellArray[a][b].setImmutable(immutable);
 	}
 	
-	public static void setRowValue(int row, int value, boolean immutable) {
+	public void setRowValue(int row, int value, boolean immutable) {
 		for (int i = 0; i < numColumns; i++) {
 			setCellValue(row, i, value);
 			setImmutable(row, i, immutable);
 		}
 	}
 	
-	public static void setColumnValue(int column, int value, boolean immutable) {
+	public void setColumnValue(int column, int value, boolean immutable) {
 		for (int i = 0; i < numRows; i++) {
 			setCellValue(column, i, value);
 			setImmutable(column, i, immutable);
@@ -89,7 +91,7 @@ public class Matrix {
 	}
 
 	
-	public static int[][] fixTrivialCases(int [][] startingSums) {
+	public int[][] fixTrivialCases(int [][] startingSums) {
 		ArrayList[][] mylist = new ArrayList[2][1];
 		mylist[0][0] = new ArrayList();
 		mylist[1][0] = new ArrayList();
@@ -257,8 +259,8 @@ public class Matrix {
 		return matrixCellArray;
 	}
 
-	public int get(int i, int j) {
-		int element = this.getMatrixCellArray()[i][j].getValue();
+	public double get(int i, int j) {
+		double element = this.getMatrixCellArray()[i][j].getValue();
 		return element;
 	}
 
@@ -279,7 +281,7 @@ public class Matrix {
 		return s.toString();
 	}
 	
-	public int getCellValue(int a, int b) {
+	public double getCellValue(int a, int b) {
 		return this.matrixCellArray[a][b].getValue();
 	}
 

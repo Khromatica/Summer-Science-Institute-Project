@@ -18,11 +18,13 @@ public class Main {
 
 	public static void main(String[] args) {
 
+		Matrix matrix = new Matrix(1,1);
+		
 		ArrayList<String> information = new ArrayList<String>();    //print information
 		ArrayList<Matrix> solutionMatrices = new ArrayList<Matrix>();    //where the solutions go
 		
 		Operations.sort(startingSums);
-		correctedSums = Matrix.fixTrivialCases(startingSums);
+		correctedSums = matrix.fixTrivialCases(startingSums);
 		
 		System.out.println("Here are our rowSums and colSums");
 
