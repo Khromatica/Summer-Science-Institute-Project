@@ -278,5 +278,9 @@ public class Matrix {
 
 		return s.toString();
 	}
+	
+	public int getCellValue(int a, int b) {
+		return this.matrixCellArray[a][b].getValue();
+	}
 
 }
