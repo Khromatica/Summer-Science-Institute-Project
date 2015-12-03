@@ -67,7 +67,7 @@ public class Matrix {
 		setRowRuns += 1;
 	}
 
-	public void setCellValue(int a, int b, double value) {
+	public void setCellValue(int a, int b, int value) {
 		matrixCellArray[a][b].setValue(value);
 	}
 	
@@ -95,8 +95,6 @@ public class Matrix {
 		ArrayList[][] mylist = new ArrayList[2][1];
 		mylist[0][0] = new ArrayList();
 		mylist[1][0] = new ArrayList();
-		
-		System.out.println(startingSums.length);
 		
 		for (int i = 0; i < startingSums.length; i++ ) {
 			for (int j = 0; j < startingSums[i].length; j++) {
@@ -137,15 +135,9 @@ public class Matrix {
 			}
 		}
 		
-		System.out.println("List1: "+ mylist[0][0]);
-		System.out.println("List2: "+ mylist[1][0]);
-		
 		//Remove the 0's from both the arrays
 		mylist[0][0].removeAll(Collections.singleton(0));
 		mylist[1][0].removeAll(Collections.singleton(0));
-		
-		System.out.println("List1: "+ mylist[0][0]);
-		System.out.println("List2: "+ mylist[1][0]);
 		
 		int origRow1Size = mylist[0][0].size();
 		int origRow2Size = mylist[1][0].size();	
@@ -156,8 +148,6 @@ public class Matrix {
 		{
 			Iterator iterator1 = mylist[0][0].iterator();
 			Iterator iterator2 = mylist[1][0].iterator();
-			
-			System.out.println("origRow1Size: "+ origRow1Size + "\torigRow2Size: "+ origRow2Size);
 			
 			while (iterator1.hasNext()){				
 				int value1 = (int)iterator1.next();
@@ -224,10 +214,6 @@ public class Matrix {
 			}
 		}
 		
-		System.out.println(mylist[0][0]);
-		System.out.println(mylist[1][0]);
-		
-		
 		return correctedSums;
 	}
 	
@@ -281,7 +267,7 @@ public class Matrix {
 		return s.toString();
 	}
 	
-	public double getCellValue(int a, int b) {
+	public int getCellValue(int a, int b) {
 		return this.matrixCellArray[a][b].getValue();
 	}
 

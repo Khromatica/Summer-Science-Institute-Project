@@ -121,4 +121,45 @@ public class FileHandler {
 		
 		return sums;
 	}
+
+	public static int[][] getLinePositions(String path, int numCols) {
+		File linePos = new File(path);
+		int numberOfLinePos;
+		int[][] linePositions = new int[1][];
+		String tempString;
+		String[] tempStringPositions = new String[numCols];
+		
+		FileInputStream fis = null;
+	    BufferedInputStream bis = null;
+
+	    try {
+	      fis = new FileInputStream(linePos);
+	      bis = new BufferedInputStream(fis);
+	      
+	      numberOfLinePos = Operations.countLines(linePos);
+	      linePositions = new int[numberOfLinePos][numCols];
+	      
+	      BufferedReader br = new BufferedReader(new InputStreamReader(bis, StandardCharsets.UTF_8));
+	      
+	      for (int i = 0; i < numberOfLinePos; i++) {
+	    	  tempString = br.readLine();
+	    	  tempStringPositions = tempString.split(" ");
+	    	  for (int j = 0; j < tempStringPositions.length; j++) {
+	    		  linePositions[i][j] = Integer.parseInt(tempStringPositions[j]);
+	    	  }
+	      }
+	      
+	      // dispose all the resources after using them.
+	      fis.close();
+	      bis.close();
+	 
+	    } catch (FileNotFoundException e) {
+	      e.printStackTrace();
+	    } catch (IOException e) {
+	      e.printStackTrace();
+	    }
+	    
+	    
+		return linePositions;
+	}
 }

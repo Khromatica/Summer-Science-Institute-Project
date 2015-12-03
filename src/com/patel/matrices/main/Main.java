@@ -2,37 +2,50 @@ package com.patel.matrices.main;
 
 import java.util.ArrayList;
 
-import com.patel.matrices.main.tools.BinarySequencer;
 import com.patel.matrices.main.tools.FileHandler;
-import com.patel.matrices.main.tools.FileReporter;
 import com.patel.matrices.main.tools.Operations;
+import com.patel.matrices.main.tools.RecursiveFileLinePositionGenerator;
+import com.patel.matrices.matrix.AverageCalculator;
+import com.patel.matrices.matrix.DoubleMatrix;
 import com.patel.matrices.matrix.Matrix;
+import com.patel.matrices.matrix.MatrixGenerator;
 
 @SuppressWarnings("unused")
 public class Main {
 	static int[][] startingSums = FileHandler.getSums(FileHandler.loadFile("res/vec.txt"));
-	static int[][] correctedSums;
-	static int numOfRows = startingSums[1].length;
-    static int numOfColumns = startingSums[1].length;
-    static int lastValueInRowSums = startingSums[0][startingSums[0].length - 1];
 
 	public static void main(String[] args) {
 
 		Matrix matrix = new Matrix(1,1);
+		MatrixGenerator mg = new MatrixGenerator();
+		RecursiveFileLinePositionGenerator rflpg = new RecursiveFileLinePositionGenerator();
+		AverageCalculator avgCalc = new AverageCalculator();
+		
+		int[][] correctedSums = matrix.fixTrivialCases(startingSums);
+		int[][] linePositions = rflpg.returnCombinations(correctedSums, correctedSums[1].length - 1);
+		
+		Matrix[] solutions = mg.generateSolutions(correctedSums, linePositions);
+		
+		int counter = 0;
+		for(int i = 0; i < solutions.length; i++) {
+			solutions[i].print();
+			System.out.println();
+			counter++;
+		}
+		System.out.println(counter);
+		System.out.println();
+		System.out.println("Average Matrix:");
+		
+		DoubleMatrix avg = avgCalc.average(solutions);
+		
+		avg.print();
 		
 		ArrayList<String> information = new ArrayList<String>();    //print information
 		ArrayList<Matrix> solutionMatrices = new ArrayList<Matrix>();    //where the solutions go
-		
-		Operations.sort(startingSums);
-		correctedSums = matrix.fixTrivialCases(startingSums);
-		
-		System.out.println("Here are our rowSums and colSums");
 
         long startTime = System.currentTimeMillis();
         long totalMemory = Runtime.getRuntime().totalMemory() / 1000000;
         long initialMemory = Runtime.getRuntime().freeMemory() / 1000000;
-        
-        Operations.print2DArray(correctedSums);
 		
         //printInformation(information, startTime, totalMemory, initialMemory);
 		//FileReporter.writeReport(information,  solutionMatrices);

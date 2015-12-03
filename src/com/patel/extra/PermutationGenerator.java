@@ -1,4 +1,4 @@
-package com.patel.matrices.main.tools;
+package com.patel.extra;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -65,6 +65,7 @@ public class PermutationGenerator {
 		return intSequence;
 	}
 	
+	@SuppressWarnings("unused")
 	public static int[][] getIterativePermutations(int sequenceLength, int numOfOnes) {
 		// an arrayList for all possible sequences in string format.
 		HashSet<String> seq1 = new LinkedHashSet<String>();

@@ -152,7 +152,8 @@ public class BinarySequencer {
 	/////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////
 	
-    public static int[][] getIterativePermutations(int sequenceLength, int numOfOnes) {
+    @SuppressWarnings("unused")
+	public static int[][] getIterativePermutations(int sequenceLength, int numOfOnes) {
 		// an arrayList for all possible sequences in string format.
 		HashSet<String> seq1 = new LinkedHashSet<String>();
 

@@ -3,18 +3,14 @@ package com.patel.matrices.matrix;
 public class MatrixCell {
 
 	private boolean immutable;
-	private double value;
-
-	private Index originalIndex;
+	private int value;
 	
 	public MatrixCell(int row, int column) {
 		immutable = false;
 		value = 0;
-		
-		setOriginalIndex(new Index(row, column));
 	}
 
-	public void setValue(double value) {
+	public void setValue(int value) {
 		if (!immutable) {
 			this.value = value;
 		}
@@ -28,16 +24,8 @@ public class MatrixCell {
 		return immutable;
 	}
 
-	public double getValue() {
+	public int getValue() {
 		return value;
-	}
-
-	public Index getOriginalIndex() {
-		return originalIndex;
-	}
-
-	public void setOriginalIndex(Index originalIndex) {
-		this.originalIndex = originalIndex;
 	}
 
 }

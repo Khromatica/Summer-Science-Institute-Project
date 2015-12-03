@@ -14,12 +14,12 @@ public class AverageCalculator {
 		Matrix[] matrixList = new Matrix[2];
 		matrixList[0] = matrix1;
 		matrixList[1] = matrix2;
-		Matrix average = a.average(matrixList);
+		DoubleMatrix average = a.average(matrixList);
 		average.print();
 	}
 	
-	public Matrix average(Matrix[] matrices) {
-		Matrix avg = new Matrix(matrices[0].getNumRows(), matrices[0].getNumColumns());
+	public DoubleMatrix average(Matrix[] matrices) {
+		DoubleMatrix avg = new DoubleMatrix(matrices[0].getNumRows(), matrices[0].getNumColumns());
 		for (int x = 0; x < avg.getNumRows(); x++) {
 			for (int y = 0; y < avg.getNumColumns(); y++) {
 				for (int i = 0; i < matrices.length; i++) {
@@ -33,6 +33,24 @@ public class AverageCalculator {
 				avg.setCellValue(x,y, (avg.getCellValue(x,y)/matrices.length));
 			}
 		}
+		
+		Matrix tempMatrix = new Matrix(avg.getNumRows(), avg.getNumColumns());
+		
+		for (int x = 0; x < avg.getNumRows(); x++) {
+			for (int y = 0; y < avg.getNumColumns(); y++) {
+				int value = ((int)((avg.getCellValue(x, y))*10000));
+				tempMatrix.setCellValue(x, y, value);
+			}
+		}
+		
+		for (int x = 0; x < avg.getNumRows(); x++) {
+			for (int y = 0; y < avg.getNumColumns(); y++) {
+				double value = ((double) tempMatrix.getCellValue(x, y))/100;
+				avg.setCellValue(x, y, value);
+			}
+		}
+		
+		
 		return avg;
 	}
 }
