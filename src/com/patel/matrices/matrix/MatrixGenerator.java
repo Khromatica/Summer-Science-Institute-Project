@@ -4,21 +4,37 @@ import java.util.ArrayList;
 
 import com.patel.matrices.main.tools.FileHandler;
 import com.patel.matrices.main.tools.Operations;
+import com.patel.matrices.main.tools.RecursiveFileLinePositionGenerator;
 
 public class MatrixGenerator {
 	
-	public Matrix[] generateSolutions(int[][] startingSums, int[][] linePositions) {
+	public DoubleMatrix returnAverage(Matrix[] solutions) {
+		DoubleMatrix avgMatrix = null;
+		AverageCalculator avgCalc = new AverageCalculator();
+		avgMatrix = avgCalc.average(solutions);
+		
+		return avgMatrix;
+	}
+	
+	public Matrix[] returnSolutions(int[][] startingSums) {
 		Matrix[] solutions = null;
 		Matrix matrix = new Matrix(1,1);
 		MatrixGenerator mg = new MatrixGenerator();
-		
-		Operations.sort(startingSums);
+		RecursiveFileLinePositionGenerator rflpg = new RecursiveFileLinePositionGenerator();
+
 		int[][] correctedSums = matrix.fixTrivialCases(startingSums);
+		int[][] linePositions = rflpg.returnCombinations(correctedSums, correctedSums[0].length - 1);
+		solutions = mg.generateSolutions(correctedSums, linePositions);
+		
+		return solutions;
+	}
+	
+	public Matrix[] generateSolutions(int[][] correctedSums, int[][] linePositions) {
+		Matrix[] solutions = null;
+		MatrixGenerator mg = new MatrixGenerator();
 		
 		Matrix[] allMatrices = mg.buildFromLinePositions(linePositions, correctedSums);
-		Matrix[] checkedMatrices = mg.checkMatrices(allMatrices, correctedSums);
-		
-		solutions = checkedMatrices;
+		solutions = mg.checkMatrices(allMatrices, correctedSums);
 		
 		return solutions;
 	}
@@ -30,13 +46,13 @@ public class MatrixGenerator {
 		for (int i = 0; i < allMatrices.length; i++) {
 			for (int col = 0; col < allMatrices[i].getNumColumns(); col++) {
 				int colSum = 0;
-				for (int x = 0; x < allMatrices[i].getNumRows(); x++) {
-					colSum += allMatrices[i].getCellValue(x, col);
+				for (int row = 0; row < allMatrices[i].getNumRows(); row++) {
+					colSum += allMatrices[i].getCellValue(row, col);
 				}
-				if (colSum != correctedSums[0][col]) {
+				if (colSum != correctedSums[1][col]) {
 					colsMatch = false;
 				}
-			}
+			}	
 			if (colsMatch) {
 				tempMatrices.add(allMatrices[i]);
 			}
