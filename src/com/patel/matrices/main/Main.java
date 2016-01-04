@@ -17,6 +17,7 @@ public class Main {
 	public static void main(String[] args) {
 		MatrixGenerator mg = new MatrixGenerator();
 		
+		Operations.print2DArray(startingSums);
 		
 		Matrix[] solutions = mg.returnSolutions(startingSums);
 		DoubleMatrix avg = mg.returnAverage(solutions);

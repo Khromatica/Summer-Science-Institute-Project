@@ -41,4 +41,26 @@ public class DoubleMatrix {
 	public double getCellValue(int a, int b) {
 		return this.matrixCellArray[a][b].getValue();
 	}
+	
+	public double[] getRow(int row) {
+		double[] returnedRow = new double[this.numColumns];
+		
+		for (int i = 0; i < returnedRow.length; i++) {
+			returnedRow[i] = this.getCellValue(row, i);
+		}
+		
+		return returnedRow;
+	}
+	
+	public double[][] getMatrixArray() {
+		double[][] array = new double[this.getNumRows()][this.getNumColumns()];
+		
+		for (int i = 0; i < this.getNumRows(); i++) {
+			for (int j = 0; j < this.getNumColumns(); j++) {
+				array[i][j] = this.getCellValue(i, j);
+			}
+		}
+		
+		return array;
+	}
 }

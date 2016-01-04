@@ -19,7 +19,7 @@ import com.patel.matrices.matrix.Matrix;
 
 public class Operations {
 
-	public static boolean checkRowSumsAndColSumsAreEqual(int[][] sums) {
+	public static boolean checkSums(int[][] sums) {
 		boolean equal = false;
 		int sum1 = 0;
 		int sum2 = 0;
@@ -34,6 +34,18 @@ public class Operations {
 
 		if (sum1 == sum2) {
 			equal = true;
+		}
+		
+		for (int i = 0; i < sums[0].length; i++) {
+			if (sums[0][i] > sums[1].length) {
+				equal = false;
+			}
+		}
+
+		for (int i = 0; i < sums[1].length; i++) {
+			if (sums[1][i] > sums[0].length) {
+				equal = false;
+			}
 		}
 
 		return equal;
@@ -55,23 +67,6 @@ public class Operations {
 		MergeSorter sorter = new MergeSorter();
 		sorter.sort(array[0]);
 		sorter.sort(array[1]);
-	}
-
-	public static void printSums(int[][] sums) {
-		System.out.print("Row Sums: ");
-
-		printArray(sums[0]);
-
-		System.out.print("Column Sums: ");
-
-		printArray(sums[1]);
-
-		if (Operations.checkRowSumsAndColSumsAreEqual(sums)) {
-			System.out.println("Matrix is not impossible");
-		} else {
-			System.out.println("Matrix is impossible");
-			System.exit(0);
-		}
 	}
 
 	public static void printCombos(int[][] combos) {
@@ -108,6 +103,26 @@ public class Operations {
 			}
 		}
 
+		return string;
+	}
+	
+	public static String doubleArrayToString(double[] array) {
+		String string = "";
+		int tempInt = 0;
+		double tempDouble = 00.00;
+		
+		for (int i = 0; i < array.length; i++) {
+			if (i != array.length - 1) {
+				tempInt = (int) array[i]*100;
+				tempDouble = ((double) tempInt)/100;
+				string += tempDouble + " ";
+			} else {
+				tempInt = (int) array[i]*100;
+				tempDouble = ((double) tempInt)/100;
+				string += tempDouble;
+			}
+		}
+		
 		return string;
 	}
 	
@@ -149,6 +164,27 @@ public class Operations {
 	    }
 	    
 	    return result;
+	}
+	
+	public static int[][] stringArrayto2DIntArray(String[] stringArray) {
+		int[][] sums = new int[stringArray.length][];
+		
+		String[][] tempArray = new String[2][];
+		String[] tempArray1 = stringArray[0].split("");
+		String[] tempArray2 = stringArray[1].split("");
+		
+		tempArray[0] = tempArray1;
+		tempArray[1] = tempArray2;
+		
+		for (int i = 0; i < stringArray.length; i++) {
+			sums[i] = new int[stringArray[i].length()];
+			for (int j = 0; j < stringArray[i].length(); j++) {
+				sums[i][j] = Integer.parseInt(tempArray[i][j]);
+			}
+		}
+		
+		
+		return sums;
 	}
 	
 	public static int countLines(String filename) throws IOException {
