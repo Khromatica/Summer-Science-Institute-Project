@@ -2,9 +2,11 @@ package com.patel.matrices.main.tools;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -49,6 +51,26 @@ public class Operations {
 		}
 
 		return equal;
+	}
+	
+	public static boolean checkTrivial(int[][] sums) {
+		boolean trivial = false;
+		
+		for(int i = 0; i < sums[0].length; i++) {
+			if (sums[0][i] == sums[1].length) {
+				trivial = true;
+				return trivial;
+			}
+		}
+		
+		for(int i = 0; i < sums[1].length; i++) {
+			if (sums[1][i] == sums[0].length) {
+				trivial = true;
+				return trivial;
+			}
+		}
+		
+		return trivial;
 	}
 
 	public static int countOfOnes(int[] array) {
@@ -115,7 +137,7 @@ public class Operations {
 			if (i != array.length - 1) {
 				tempInt = (int) array[i]*100;
 				tempDouble = ((double) tempInt)/100;
-				string += tempDouble + " ";
+				string += tempDouble + "    ";
 			} else {
 				tempInt = (int) array[i]*100;
 				tempDouble = ((double) tempInt)/100;
@@ -261,5 +283,83 @@ public class Operations {
 		}
 		
 		return result;
+	}
+	
+	public static int[][][] matrixArrayTo2DArray (Matrix[] input) {
+		int[][][] result = new int[input.length][input[0].getNumRows()][input[0].getNumColumns()];
+		
+		for(int i = 0; i < input.length; i++) {
+			for(int j = 0; j < input[i].getNumRows(); j++) {
+				for (int k = 0; k < input[i].getNumColumns(); k++) {
+					result[i][j][k] = input[i].getCellValue(j, k);
+				}
+			}
+		}
+		
+		
+		return result;
+	}
+	
+	public static void outputMatrixTextFile(Matrix[] solutions, String outputDirectory, int[][] sums) {
+		int[][][] solutionsArray = Operations.matrixArrayTo2DArray(solutions);
+		File matrices = null;
+		
+		int tempValue = 0;
+		
+		int[] rowSums = new int[solutions[0].getNumRows()];
+		int[] colSums = new int[solutions[0].getNumColumns()];
+		
+		int numRows = rowSums.length;
+		int numColumns = colSums.length;
+		
+		String rowSumString = Operations.intArrayToString(sums[0]);
+		String colSumString = Operations.intArrayToString(sums[1]);
+		
+		for (int i = 0; i < solutions[0].getNumRows(); i++) {
+			for (int j = 0; j < solutions[0].getNumColumns(); j++) {
+				tempValue += solutions[0].getCellValue(i, j);
+			}
+			rowSums[i] = tempValue;
+			tempValue = 0;
+		}
+		
+		for (int i = 0; i < solutions[0].getNumColumns(); i++) {
+			for (int j = 0; j < solutions[0].getNumRows(); j++) {
+				tempValue += solutions[0].getCellValue(i, j);
+			}
+			colSums[i] = tempValue;
+			tempValue = 0;
+		}
+		
+
+		try {
+			matrices = new File(outputDirectory);
+			
+			if (!matrices.exists()) {
+				matrices.createNewFile();
+			}
+			
+			FileWriter fw = new FileWriter(matrices.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+			
+			bw.write(solutionsArray.length + " SOLUTIONS FOR:");
+			bw.newLine();
+			bw.write("Row Sums: " + rowSumString);
+			bw.newLine();
+			bw.write("Column Sums: " + colSumString);
+			bw.newLine();
+			bw.newLine();
+			
+			for (int i = 0; i < solutionsArray.length; i++) {
+				for (int j = 0; j < numRows; j++) {
+					bw.write(Operations.intArrayToString(solutionsArray[i][j]));
+					bw.newLine();
+				}
+				bw.newLine();
+			}
+			bw.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
