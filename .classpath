@@ -5,7 +5,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Apache Math"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Apache Lang"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Apache IO"/>
-	<classpathentry kind="lib" path="res"/>
-	<classpathentry kind="lib" path="fileReports"/>
+	<classpathentry exported="true" kind="lib" path="res"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

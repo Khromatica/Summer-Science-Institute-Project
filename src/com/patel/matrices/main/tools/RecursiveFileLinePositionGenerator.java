@@ -1,10 +1,7 @@
 package com.patel.matrices.main.tools;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import org.apache.commons.math3.util.CombinatoricsUtils;
 
 public class RecursiveFileLinePositionGenerator {
     public int[][] returnCombinations(int[][] sums, int length) {
@@ -12,7 +9,7 @@ public class RecursiveFileLinePositionGenerator {
     	int[] array = new int[sums[0].length];
     	
     	for(int i = 0; i < sums[0].length; i++) {
-    		array[i] = (int) CombinatoricsUtils.binomialCoefficient(sums[1].length,sums[0][i]) - 1;
+    		array[i] = (int) Binomial.binomial(sums[1].length,sums[0][i]) - 1;
     	}
     	
     	List<int[]> tempCombos = generateCombinations(array, array.length-1);

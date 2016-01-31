@@ -310,7 +310,6 @@ public class Operations {
 		int[] colSums = new int[solutions[0].getNumColumns()];
 		
 		int numRows = rowSums.length;
-		int numColumns = colSums.length;
 		
 		String rowSumString = Operations.intArrayToString(sums[0]);
 		String colSumString = Operations.intArrayToString(sums[1]);
@@ -361,5 +360,13 @@ public class Operations {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static boolean isWindows(String OS) {
+		return (OS.indexOf("Win") >=0);
+	}	
+	
+	public static boolean isMac(String OS) {
+		return (OS.indexOf("Mac") >= 0);
 	}
 }

@@ -1,33 +1,15 @@
 package com.patel.matrices.main;
 
-import java.awt.Color;
-import java.awt.Desktop;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
+import java.awt.*;
+import java.awt.event.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFileChooser;
-import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.border.Border;
+import java.io.*;
 
-import com.patel.matrices.main.tools.FileHandler;
+import java.nio.file.*;
+import javax.swing.*;
+
 import com.patel.matrices.main.tools.Operations;
-import com.patel.matrices.matrix.DoubleMatrix;
-import com.patel.matrices.matrix.Matrix;
-import com.patel.matrices.matrix.MatrixGenerator;
+import com.patel.matrices.matrix.*;
 
 public class GraphicsMain implements ActionListener{
 	static MatrixGenerator mg = new MatrixGenerator();
@@ -41,8 +23,8 @@ public class GraphicsMain implements ActionListener{
 	private final static String i2 = "---------------------------------------------------------------------------------------------------------------------------------------------------------";
 	private final static String i3 = " Input a set of row sums and column sums in the form 1234... The algorithm will then output an average matrix";
 	private final static String i4 = " once \"Generate Average Matrix\" is clicked. The percentage output will be shown in the bottom text area.";
-	private final static String i5 = " To save all matrix solutions to a text file, select the \"File Output\" checkbox and select a folder destination";
-	private final static String i6 = " for the output. Restart the program in between new sets of sums to avoid any errors.";
+	private final static String i5 = " To save all matrix solutions to a text file, select the \"File Output\" checkbox and select a folder. NOTE: PLACE";
+	private final static String i6 = " PLACE \"COMBINATION RESOURCES\" FOLDER ON DESKTOP FOR PROPER FUNCTION.";
 	private final static String newLine = "\n";
 	
 	public JFrame frame;
@@ -99,8 +81,6 @@ public class GraphicsMain implements ActionListener{
 		mainPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		instructionPanel = new JPanel();
 		outputPanel = new JPanel();
-
-		
 		
 		instructions = new JTextArea(5,1);
 
@@ -243,63 +223,85 @@ public class GraphicsMain implements ActionListener{
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == generate) {
-			if (sumsInput1.getText() != "" && sumsInput2.getText() != "") {
-				rowSumString = sumsInput1.getText();
-				colSumString = sumsInput2.getText();
-				inputClicked = true;
+			boolean resExists = false;
+			String tempPath = "";
+			String username = System.getProperty("user.name");
+			
+			if (Operations.isWindows(System.getProperty("os.name"))) {
+				tempPath = "C:/Users/" + username + "/Desktop/Combination Resources";			
+			} else if (Operations.isMac(System.getProperty("os.name"))) {
+				tempPath = "/Users/" + username + "/Desktop/Combination Resources"; 
 			}
 			
-			if (inputClicked) {
-				matrixOutput.setText(null);
-				double[][] tempArray;
-				String lineToOutput = "";
-				String[] tempSums = new String[2];
-				String[] matrixArray;
-				boolean checkSums = false;
-				boolean trivial = false;
-				
-				tempSums[0] = rowSumString;
-				tempSums[1] = colSumString;
-				
-				initialSums = Operations.stringArrayto2DIntArray(tempSums);
-				
-				checkSums = Operations.checkSums(initialSums);
-				trivial = Operations.checkTrivial(initialSums);
-				
-				
-				
-				if(!checkSums) {
-					matrixOutput.setText(null);
-					matrixOutput.setForeground(Color.RED);
-					matrixOutput.setText("Invalid Sums");
-				} else if (trivial){
-					matrixOutput.setText(null);
-					matrixOutput.setForeground(Color.RED);
-					matrixOutput.setText("Unmanageable Case");
-				} else {
-					try {
-						solutions = mg.returnSolutions(initialSums);
-						avg = mg.returnAverage(solutions);					
-						matrixArray = new String[avg.getNumRows()];
-						tempArray = avg.getMatrixArray();
-						
-						for(int i = 0; i < matrixArray.length; i++) {
-							matrixArray[i] = Operations.doubleArrayToString(tempArray[i]);
-						}
-					
-						for(int i = 0; i < avg.getNumRows(); i++) {
-							lineToOutput = matrixArray[i];
-							matrixOutput.append(lineToOutput + newLine);
-						}
-					
-						inputClicked = false;
-						saveFile.setEnabled(true);
-					} catch (Exception exp) {
-						System.err.println("Error with sums");
-					}
+			Path newPath = FileSystems.getDefault().getPath(tempPath);
+			
+			if (Files.exists(newPath, LinkOption.NOFOLLOW_LINKS)) {
+				resExists = true;
+			}
+			
+			System.out.println(resExists);
+			if (resExists) {
+				if (sumsInput1.getText() != "" && sumsInput2.getText() != "") {
+					rowSumString = sumsInput1.getText();
+					colSumString = sumsInput2.getText();
+					inputClicked = true;
 				}
 				
+				if (inputClicked) {
+					matrixOutput.setText(null);
+					double[][] tempArray;
+					String lineToOutput = "";
+					String[] tempSums = new String[2];
+					String[] matrixArray;
+					boolean checkSums = false;
+					boolean trivial = false;
+					
+					tempSums[0] = rowSumString;
+					tempSums[1] = colSumString;
+					
+					initialSums = Operations.stringArrayto2DIntArray(tempSums);
+					
+					checkSums = Operations.checkSums(initialSums);
+					trivial = Operations.checkTrivial(initialSums);
+							
+					if(!checkSums) {
+						matrixOutput.setText(null);
+						matrixOutput.setForeground(Color.RED);
+						matrixOutput.setText("Invalid Sums");
+					} else if (trivial){
+						matrixOutput.setText(null);
+						matrixOutput.setForeground(Color.RED);
+						matrixOutput.setText("Unmanageable Case");
+					} else {
+						try {
+							matrixOutput.setForeground(Color.BLACK);
+							solutions = mg.returnSolutions(initialSums);
+							avg = mg.returnAverage(solutions);					
+							matrixArray = new String[avg.getNumRows()];
+							tempArray = avg.getMatrixArray();
+							
+							for(int i = 0; i < matrixArray.length; i++) {
+								matrixArray[i] = Operations.doubleArrayToString(tempArray[i]);
+							}
+						
+							for(int i = 0; i < avg.getNumRows(); i++) {
+								lineToOutput = matrixArray[i];
+								matrixOutput.append(lineToOutput + newLine);
+							}
+						
+							inputClicked = false;
+							saveFile.setEnabled(true);
+						} catch (Exception exp) {
+							exp.printStackTrace();
+							System.err.println("Error with sums");
+						}
+					}
+					
+				}
+			} else {
+				new DialogContext();
 			}
+			
 		}
 		
 		if (e.getSource() == close) {

@@ -7,6 +7,7 @@ import com.patel.matrices.main.tools.Operations;
 import com.patel.matrices.main.tools.RecursiveFileLinePositionGenerator;
 
 public class MatrixGenerator {
+	public static String OS = System.getProperty("os.name");
 	
 	public DoubleMatrix returnAverage(Matrix[] solutions) {
 		DoubleMatrix avgMatrix = null;
@@ -70,7 +71,18 @@ public class MatrixGenerator {
 
 	public Matrix[] buildFromLinePositions(int [][] linePositions, int[][] sums) {
 		Matrix[] testMatrices = new Matrix[linePositions.length];
-		String path = "res/Binary Sequences/" + sums[1].length + "/" + sums[1].length + "C";
+		String path = "";
+		
+		String username = System.getProperty("user.name");
+		
+		
+		if (Operations.isWindows(OS)) {
+			System.out.println("Hello");
+			path = "C:/Users/" + username + "/Desktop/Combination Resources/Binary Sequences/" + sums[1].length + "/" + sums[1].length + "C";			
+		} else if (Operations.isMac(OS)) {
+			path = "/Users/" + username + "/Desktop/Combination Resources/Binary Sequences/" + sums[1].length + "/" + sums[1].length + "C"; 
+		}
+
 		int[][][] allChooseFiles = new int[sums[1].length][][];
 		
 		for(int i = 0; i < allChooseFiles.length; i++) {
