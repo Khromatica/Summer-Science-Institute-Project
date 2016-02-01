@@ -15,12 +15,12 @@ public class DialogContext extends JFrame{
 
 	public DialogContext() {
 		this.setTitle("Error");
-		this.setSize(300, 60);
+		this.setSize(410, 60);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		
 		mainPanel = new JPanel();
-		error = new JLabel("Please place res folder on desktop");
+		error = new JLabel("Place \"Combination Resources\" folder on Desktop");
 		
 		error.setFont(new Font(Font.DIALOG, Font.BOLD, 16));
 		error.setForeground(Color.RED);
